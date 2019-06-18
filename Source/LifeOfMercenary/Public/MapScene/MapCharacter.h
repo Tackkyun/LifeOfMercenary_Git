@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "MapSceneSaveGame.h"
 #include "MapCharacter.generated.h"
 
 class AMapRouteSpline;
@@ -82,4 +83,12 @@ public:
 
 	//A* 최단거리. SAVE
 	TArray<AMapRouteSpline*> SFT;
+
+
+	//Save
+	UFUNCTION(Blueprintcallable)
+		void SaveMapScene();
+
+	UPROPERTY()
+	UMapSceneSaveGame* m_saveInst;
 };

@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ï»¿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -25,45 +25,43 @@ public:
 public:
 
 	UFUNCTION(BlueprintCallable, Category = "Calendar")
-		//ÇöÀç ³âµµ¸¦ ¹Ş¾Æ¿È.
+		//í˜„ì¬ ë…„ë„ë¥¼ ë°›ì•„ì˜´.
 		static int32 GetYear(int32 _Date);
 	UFUNCTION(BlueprintCallable, Category = "Calendar")
-		//ÇöÀç ¿ùÀ» ¹Ş¾Æ¿È.
+		//í˜„ì¬ ì›”ì„ ë°›ì•„ì˜´.
 		static int32 GetMonth(int32 _Date);
 	UFUNCTION(BlueprintCallable, Category = "Calendar")
-		//ÇöÀç ÀÏÀ» ¹Ş¾Æ¿È.
+		//í˜„ì¬ ì¼ì„ ë°›ì•„ì˜´.
 		static int32 GetDay(int32 _Date);
 
 	UFUNCTION(BlueprintCallable, Category = "Calendar")
-		//"-yymmdd"Çü½ÄÀÇ FString³¯Â¥¸¦ ÀÏ´ÜÀ§·Î º¯È¯
+		//"-yymmdd"í˜•ì‹ì˜ FStringë‚ ì§œë¥¼ ì¼ë‹¨ìœ„ë¡œ ë³€í™˜
 		static int32 ConvertFStoi(FString _Date);
 
 	UFUNCTION(BlueprintCallable, Category = "Calendar")
-		//³¯Â¥¸¦ ÀÏ´ÜÀ§·Î ¼¼ÆÃ.
+		//ë‚ ì§œë¥¼ ì¼ë‹¨ìœ„ë¡œ ì„¸íŒ….
 		static bool SetDate(int32& _Date, int32 _Day);
 	UFUNCTION(BlueprintCallable, Category = "Calendar")
-		//³¯Â¥¸¦ FStringÇüÅÂ·Î ¼¼ÆÃ. "-yymmdd" ¼ø¼­. ÃÖ¼Ò ´ÜÀ§ 10101(1³â 1¿ù 1ÀÏ). ³â ¿ù ÀÏ ÃÖ´ë´ÜÀ§ Á¸Àç.
+		//ë‚ ì§œë¥¼ FStringí˜•íƒœë¡œ ì„¸íŒ…. "-yymmdd" ìˆœì„œ. ìµœì†Œ ë‹¨ìœ„ 10101(1ë…„ 1ì›” 1ì¼). ë…„ ì›” ì¼ ìµœëŒ€ë‹¨ìœ„ ì¡´ì¬.
 		static bool SetDateFromFString(int32& _Date, FString _SDate);
 
 	UFUNCTION(BlueprintCallable, Category = "Calendar")
-		//ÇöÀç ³¯Â¥¿¡¼­ ÀÏ´ÜÀ§ Ãß°¡
+		//í˜„ì¬ ë‚ ì§œì—ì„œ ì¼ë‹¨ìœ„ ì¶”ê°€
 		static bool AddDay(int32& _Date, int32 _Day);
 	UFUNCTION(BlueprintCallable, Category = "Calendar")
-		//ÇöÀç ³¯Â¥¿¡¼­ ¿ù´ÜÀ§ Ãß°¡
+		//í˜„ì¬ ë‚ ì§œì—ì„œ ì›”ë‹¨ìœ„ ì¶”ê°€
 		static bool AddMonth(int32& _Date, int32 _Month);
 	UFUNCTION(BlueprintCallable, Category = "Calendar")
-		//ÇöÀç ³¯Â¥¿¡¼­ ³â´ÜÀ§ Ãß°¡
+		//í˜„ì¬ ë‚ ì§œì—ì„œ ë…„ë‹¨ìœ„ ì¶”ê°€
 		static bool AddYear(int32& _Date, int32 _Year);
 
 	UFUNCTION(BlueprintCallable, Category = "Calendar")
-		//ÇÑ´Ş Áß ¸¶Áö¸· ÀÏ
+		//í•œë‹¬ ì¤‘ ë§ˆì§€ë§‰ ì¼
 		static int32 GetMaxDay() { return MaxDay; };
 	UFUNCTION(BlueprintCallable, Category = "Calendar")
-		//ÀÏ³â Áß ¸¶Áö¸· ´Ş
+		//ì¼ë…„ ì¤‘ ë§ˆì§€ë§‰ ë‹¬
 		static int32 GetMaxMonth() { return MaxMonth; };
 	UFUNCTION(BlueprintCallable, Category = "Calendar")
-		//ÃÖÈÄÀÇ ³âµµ
+		//ìµœí›„ì˜ ë…„ë„
 		static int32 GetMaxYear() { return MaxYear; };
-	
-	
 };

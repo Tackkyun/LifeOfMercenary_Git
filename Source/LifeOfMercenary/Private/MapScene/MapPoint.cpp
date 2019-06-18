@@ -1,4 +1,4 @@
-ï»¿// Fill out your copyright notice in the Description page of Project Settings.
+// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "MapPoint.h"
 
@@ -24,7 +24,8 @@ void AMapPoint::OnConstruction(const FTransform& _transform)
 {
 	Super::OnConstruction(_transform);
 
-	//ì•¡í„° ê°±ì‹  ì‹œ, ì—°ê²°ëœ Splineì˜ ë ìœ„ì¹˜ë¥¼ ì•¡í„° í•œê°€ìš´ë°ë¡œ.
+	//#if WITH_EDITOR
+	//¾×ÅÍ °»½Å ½Ã, ¿¬°áµÈ SplineÀÇ ³¡ À§Ä¡¸¦ ¾×ÅÍ ÇÑ°¡¿îµ¥·Î.
 	for (int i = 0; i < splineArray.Num(); i++) {
 		if (splineArray[i] != nullptr) {
 			if ((GetActorLocation() - splineArray[i]->routeSpline->GetLocationAtDistanceAlongSpline(0.0f, ESplineCoordinateSpace::World)).Size() >
@@ -37,6 +38,7 @@ void AMapPoint::OnConstruction(const FTransform& _transform)
 		}
 	}
 
+
 	UStaticMeshComponent* tempMesh = NewObject<UStaticMeshComponent>(this, UStaticMeshComponent::StaticClass());
 	tempMesh->SetHiddenInGame(bVisibleEditorOnly);
 	tempMesh->SetCastShadow(false);
@@ -48,6 +50,7 @@ void AMapPoint::OnConstruction(const FTransform& _transform)
 	tempMesh->SetRelativeScale3D(tempMesh->RelativeScale3D * pointMeshRadius);
 
 	RegisterAllComponents();
+	//#endif
 }
 
 // Called when the game starts or when spawned
@@ -56,7 +59,7 @@ void AMapPoint::BeginPlay()
 	Super::BeginPlay();
 
 	//#if WITH_EDITOR
-	//ì•¡í„° ê°±ì‹  ì‹œ, ì—°ê²°ëœ Splineì˜ ë ìœ„ì¹˜ë¥¼ ì•¡í„° í•œê°€ìš´ë°ë¡œ.
+	//¾×ÅÍ °»½Å ½Ã, ¿¬°áµÈ SplineÀÇ ³¡ À§Ä¡¸¦ ¾×ÅÍ ÇÑ°¡¿îµ¥·Î.
 	for (int i = 0; i < splineArray.Num(); i++) {
 		if (splineArray[i] != nullptr) {
 			if ((GetActorLocation() - splineArray[i]->routeSpline->GetLocationAtDistanceAlongSpline(0.0f, ESplineCoordinateSpace::World)).Size() >
@@ -95,7 +98,7 @@ void AMapPoint::Tick(float DeltaTime)
 
 void AMapPoint::SetArrayInSpline()
 {
-	//Spline ì„¸íŒ…
+	//Spline ¼¼ÆÃ
 	for (int i = 0; i < splineArray.Num(); i++) {
 		float dist0 = (GetActorLocation() - splineArray[i]->routeSpline->GetLocationAtDistanceAlongSpline(0.0f, ESplineCoordinateSpace::World)).Size();
 		float dist1 = (GetActorLocation() - splineArray[i]->routeSpline->GetLocationAtDistanceAlongSpline(splineArray[i]->routeSpline->GetSplineLength(), ESplineCoordinateSpace::World)).Size();

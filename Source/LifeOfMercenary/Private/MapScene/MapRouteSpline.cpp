@@ -1,4 +1,4 @@
-Ôªø// Fill out your copyright notice in the Description page of Project Settings.
+// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "MapRouteSpline.h"
 #include "MapPoint.h"
@@ -23,6 +23,7 @@ void AMapRouteSpline::OnConstruction(const FTransform& _transform)
 {
 	Super::OnConstruction(_transform);
 
+	//#if WITH_EDITOR
 	//SetPreviewMesh
 	for (int i = 0; i < routeSpline->GetNumberOfSplinePoints() - 1; i++) {
 		USplineMeshComponent* tempSplineMesh = NewObject<USplineMeshComponent>(this, USplineMeshComponent::StaticClass());
@@ -33,6 +34,7 @@ void AMapRouteSpline::OnConstruction(const FTransform& _transform)
 		tempSplineMesh->SetStaticMesh(splineMesh);
 		tempSplineMesh->SetForwardAxis(ESplineMeshAxis::Z, true);
 		tempSplineMesh->AttachToComponent(routeSpline, FAttachmentTransformRules::KeepRelativeTransform);
+		//tempSplineMesh->AttachToComponent(routeSpline, FAttachmentTransformRules::KeepRelativeTransform);
 		tempSplineMesh->SetStartAndEnd(
 			routeSpline->GetLocationAtSplinePoint(i, ESplineCoordinateSpace::Local),
 			routeSpline->GetTangentAtSplinePoint(i, ESplineCoordinateSpace::Local),
@@ -47,7 +49,7 @@ void AMapRouteSpline::OnConstruction(const FTransform& _transform)
 		SetPreviewText(FText::FromName(TEXT("None")), (routeSpline->GetSplineLength() / 2.0f) - 100.0f, FColor(105, 65, 0, 0));
 	}
 	else {
-		//Î£®ÌîÑ
+		//∑Á«¡
 		for (int i = 0; i < splinePart.Num(); i++) {
 			SetPreviewText(FText::FromString(FString::FromInt(i)), i * routeSpline->GetSplineLength() / splinePart.Num(), FColor(105, 65, 0, 0));
 		}
@@ -57,8 +59,10 @@ void AMapRouteSpline::OnConstruction(const FTransform& _transform)
 
 	RegisterAllComponents();
 
+	//#endif
 }
 
+//#if WITH_EDITOR
 void AMapRouteSpline::SetPreviewText(FText _text, float _distance, FColor _color)
 {
 	UTextRenderComponent* tempTextRender = NewObject<UTextRenderComponent>(this, UTextRenderComponent::StaticClass());
@@ -80,6 +84,7 @@ void AMapRouteSpline::SetPreviewText(FText _text, float _distance, FColor _color
 	tempTextRender->SetWorldSize(100.0f);
 	tempTextRender->SetTextRenderColor(_color);
 }
+//#endif
 
 // Called when the game starts or when spawned
 void AMapRouteSpline::BeginPlay()
@@ -112,7 +117,7 @@ void AMapRouteSpline::BeginPlay()
 		SetPreviewText(FText::FromName(TEXT("None")), (routeSpline->GetSplineLength() / 2.0f) - 100.0f, FColor(105, 65, 0, 0));
 	}
 	else {
-		//Î£®ÌîÑ
+		//∑Á«¡
 		for (int i = 0; i < splinePart.Num(); i++) {
 			SetPreviewText(FText::FromString(FString::FromInt(i)), i * routeSpline->GetSplineLength() / splinePart.Num(), FColor(105, 65, 0, 0));
 		}
@@ -124,9 +129,9 @@ void AMapRouteSpline::BeginPlay()
 
 	//#endif
 
-	//ÎπÑÏö© == SplineÍ∏∏Ïù¥
+	//∫ÒøÎ == Spline±Ê¿Ã
 	cost = routeSpline->GetSplineLength();
-	//ÎπÑÏö© = Í∏∏Ïù¥ + (ÏúÑÌóòÎèÑ - ÎÇ¥ Ï†ÑÌà¨Î†•) + Î™©Ï†ÅÏßÄÏóêÏÑú ÏñºÎßàÎÇò Î®ºÏßÄ.
+	//∫ÒøÎ = ±Ê¿Ã + (¿ß«Ëµµ - ≥ª ¿¸≈ı∑¬) + ∏Ò¿˚¡ˆø°º≠ æÛ∏∂≥™ ∏’¡ˆ.
 }
 
 // Called every frame
@@ -151,7 +156,7 @@ AMapPoint* AMapRouteSpline::GetPoint(bool _num) {
 
 int32 AMapRouteSpline::PointStartDirection(AMapPoint* _point, bool _reverse)
 {
-	//ÏúÑÏπòÏôÄ reverseÏÉÅÌÉúÏóê Îî∞Î•∏ XORÏó∞ÏÇ∞
+	//¿ßƒ°øÕ reverseªÛ≈¬ø° µ˚∏• XORø¨ªÍ
 	if (((_point->GetActorLocation() - routeSpline->GetLocationAtSplinePoint(0, ESplineCoordinateSpace::World)).Size() <
 		(_point->GetActorLocation() - routeSpline->GetLocationAtSplinePoint(routeSpline->GetSplineLength(), ESplineCoordinateSpace::World)).Size()) ^ _reverse)
 	{
@@ -164,7 +169,7 @@ int32 AMapRouteSpline::PointStartDirection(AMapPoint* _point, bool _reverse)
 
 bool AMapRouteSpline::PointStartDirectionBoolean(AMapPoint * _point, bool _reverse)
 {
-	//ÏúÑÏπòÏôÄ reverseÏÉÅÌÉúÏóê Îî∞Î•∏ XORÏó∞ÏÇ∞
+	//¿ßƒ°øÕ reverseªÛ≈¬ø° µ˚∏• XORø¨ªÍ
 	if (((_point->GetActorLocation() - routeSpline->GetLocationAtSplinePoint(0, ESplineCoordinateSpace::World)).Size() <
 		(_point->GetActorLocation() - routeSpline->GetLocationAtSplinePoint(routeSpline->GetSplineLength(), ESplineCoordinateSpace::World)).Size()) ^ _reverse)
 	{
@@ -191,27 +196,27 @@ void AMapRouteSpline::SetSplineEvent()
 
 void AMapRouteSpline::EventCall(float _pos, bool _direction)
 {
-	//Ïù¥Î≤§Ìä∏ ÏßÄÏ†êÏù¥ Ï°¥Ïû¨ÌïòÎ©¥
+	//¿Ã∫•∆Æ ¡ˆ¡°¿Ã ¡∏¿Á«œ∏È
 	if (eventPosArray.Num() > 0) {
 		if (_direction) {
-			//Ï†ïÎ∞©Ìñ•ÏúºÎ°ú ÏúÑÏπò ÎèÑÎã¨Ïó¨Î∂Ä ÌôïÏù∏.
+			//¡§πÊ«‚¿∏∑Œ ¿ßƒ° µµ¥ﬁø©∫Œ »Æ¿Œ.
 			if (_pos >= eventPosArray[0]) {
-				//Ïù¥Î≤§Ìä∏
+				//¿Ã∫•∆Æ
 
 				eventPosArray.RemoveAt(0);
 
-				//Î†àÎ≤®Ïò§Ìîà
+				//∑π∫ßø¿«¬
 				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, TEXT("Event! %f"));
 			}
 		}
 		else {
-			//Ïó≠Î∞©Ìñ•ÏúºÎ°ú ÏúÑÏπò ÎèÑÎã¨Ïó¨Î∂Ä ÌôïÏù∏
+			//ø™πÊ«‚¿∏∑Œ ¿ßƒ° µµ¥ﬁø©∫Œ »Æ¿Œ
 			if (_pos <= eventPosArray[eventPosArray.Num() - 1]) {
-				//Ïù¥Î≤§Ìä∏
+				//¿Ã∫•∆Æ
 
 				eventPosArray.RemoveAt(eventPosArray.Num() - 1);
 
-				//Î†àÎ≤®Ïò§Ìîà
+				//∑π∫ßø¿«¬
 				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Event! %f"));
 			}
 		}

@@ -95,13 +95,12 @@ bool AQuestBoard::SetPaperObjectonBoard(FString _PaperClassPath, bool _paperActi
 	//Blueprint Class Load.
 	UClass* paperBlueprint = LoadObject<UClass>(nullptr, *_PaperClassPath);
 
-	//Exception. Has not file
+	//예외처리. 퀘스트 페이지가 없을 경우.
 	if (paperBlueprint == nullptr) return false;
 
-	//Set Quest. from RequestManager
+	//Get Current Quest.
 	requestDataArray = GetQuest();
 
-	//Loop Count Request Data Array Numer
 	for (int i = 0; i < requestDataArray.Num(); i++) {
 		//Set SpawnPaperTransform
 		FTransform _SpawnPaperTransform(

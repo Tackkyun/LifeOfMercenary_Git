@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "LifeOfMercenary/Public/Camera/MainSceneCamera.h"
 #include "Math/UnrealMathVectorCommon.h"
@@ -74,6 +74,7 @@ void AMainSceneCamera::MoveFunc(float _deltaSeconds)
 {
 	m_tick += (_deltaSeconds / moveTime);
 
+	//그래프 형태로 이동/회전
 	SetActorLocation(UKismetMathLibrary::VEase(m_pastPos, m_targetPos, m_tick, EEasingFunc::EaseOut));
 	SetActorRotation(UKismetMathLibrary::REase(
 		FRotationMatrix::MakeFromX((m_pastLookPos - m_pastPos)).Rotator(),
@@ -84,7 +85,7 @@ void AMainSceneCamera::MoveFunc(float _deltaSeconds)
 		SetActorTickEnabled(false);//Active Tick
 		cameraMoveExit.Broadcast(m_bBegin);
 		if (m_bBegin) {
-			cameraMoveExit.Clear();
+			cameraMoveExit.Clear(); //delegate에 연결된 함수를 모두 끊음.
 		}
 	}
 }

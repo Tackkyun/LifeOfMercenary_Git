@@ -3,6 +3,7 @@
 #include "MapCharacter.h"
 #include "MapRouteSpline.h"
 #include "MapPoint.h"
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 
 
 // Sets default values
@@ -23,7 +24,15 @@ void AMapCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	doOnce = true;
+	//저장정보 로딩
+	m_saveInst = Cast<UMapSceneSaveGame>(UGameplayStatics::CreateSaveGameObject(UMapSceneSaveGame::StaticClass()));
+	if (UGameplayStatics::DoesSaveGameExist(m_saveInst->saveSlotName, m_saveInst->userIndex)) {
+		m_saveInst = Cast<UMapSceneSaveGame>(UGameplayStatics::LoadGameFromSlot(m_saveInst->saveSlotName, m_saveInst->userIndex));
+		m_saveInst->LoadCharacter(GetWorld(), this);
+	}
+
+
+	//doOnce = true;
 
 	//적용 시 주석 풀것
 	StopMove();
@@ -269,4 +278,9 @@ void AMapCharacter::Move()
 			//비율 = 경과시간 * (속도 / 총 길이)
 		}
 	}
+}
+
+
+void AMapCharacter::SaveMapScene() {
+	m_saveInst->SaveCharacter(this);
 }
